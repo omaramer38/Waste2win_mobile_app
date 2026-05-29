@@ -34,6 +34,8 @@ yarn-error.*
 .env
 .env.*
 .env*.local
+!.env.example
+!backend/.env.example
 
 # runtime output
 expo-web*.log

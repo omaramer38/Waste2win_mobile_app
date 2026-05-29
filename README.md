@@ -1,50 +1,113 @@
-# Welcome to your Expo app 👋
+# Waste2win Mobile App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Waste2win is a recycling rewards mobile app built with Expo React Native, an Express/MySQL backend, and local Python AI modules for chatbot intent detection and route optimization.
 
-## Get started
+## Project structure
 
-1. Install dependencies
+- `app/` Expo Router mobile screens
+- `backend/` Express API and MySQL database schema
+- `chatbot_ai/` local Python chatbot classifier used by the backend
+- `smart_waste_ai/` local Python route optimization scripts
+- `context/`, `services/`, `components/` shared mobile app code
+
+## Requirements
+
+- Node.js
+- npm
+- Expo Go or Android/iOS emulator
+- MySQL
+- Python 3
+
+## Setup
+
+1. Install mobile dependencies
 
    ```bash
    npm install
    ```
 
-2. Start the app
+2. Install backend dependencies
 
    ```bash
-   npx expo start
+   cd backend
+   npm install
+   cd ..
    ```
 
-In the output, you'll find options to open the app in a
+3. Install Python AI dependencies
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+   ```bash
+   pip install -r chatbot_ai/requirements.txt
+   pip install -r smart_waste_ai/requirements.txt
+   ```
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+4. Create environment files
 
-## Get a fresh project
+   ```bash
+   copy .env.example .env
+   copy backend\.env.example backend\.env
+   ```
 
-When you're ready, run:
+   If you run the app on a real phone using Expo Go, replace `localhost` in `.env` with your computer LAN IP, for example:
 
-```bash
-npm run reset-project
-```
+   ```env
+   EXPO_PUBLIC_API_URL=http://192.168.1.9:5000/api
+   ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+5. Create and seed the database
 
-## Learn more
+   Make sure MySQL is running, then update `backend/.env` if your username, password, or database name is different.
 
-To learn more about developing your project with Expo, look at the following resources:
+   ```bash
+   cd backend
+   npm run db:init
+   cd ..
+   ```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+6. Start the backend
 
-## Join the community
+   ```bash
+   cd backend
+   npm run dev
+   ```
 
-Join our community of developers creating universal apps.
+7. Start the mobile app in another terminal
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+   ```bash
+   npm start
+   ```
+
+## Test accounts
+
+After database initialization, you can use:
+
+- Admin: `admin@gmail.com` / `123456`
+- Worker: `worker@gmail.com` / `123456`
+- User: `user@gmail.com` / `123456`
+
+## Useful scripts
+
+- Mobile app:
+
+  ```bash
+  npm start
+  npm run web
+  npm run android
+  npm run ios
+  npm run lint
+  ```
+
+- Backend:
+
+  ```bash
+  cd backend
+  npm run dev
+  npm run db:init
+  ```
+
+## Notes
+
+- Do not commit real `.env` files.
+- Do not commit `node_modules`; run `npm install` instead.
+- Uploaded runtime images in `backend/uploads/` are ignored by git.
+- The chatbot model files are included in `chatbot_ai/`, so the backend can call the local classifier.
