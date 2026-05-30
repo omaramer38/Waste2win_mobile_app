@@ -9,6 +9,7 @@ import storeOrderRoutes from './routes/storeOrderRoutes';
 import userRoutes from './routes/userRoutes';
 import settingsRoutes from './routes/settingsRoutes';
 import chatbotRoutes from './routes/chatbotRoutes';
+import wasteDetectionRoutes from './routes/wasteDetectionRoutes';
 
 const app = express();
 
@@ -28,5 +29,6 @@ app.use('/api/store-orders', storeOrderRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/chatbot', chatbotRoutes);
+app.use('/api/waste-detection', wasteDetectionRoutes);
 
 export default app;

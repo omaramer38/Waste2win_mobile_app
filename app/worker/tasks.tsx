@@ -173,7 +173,12 @@ export default function WorkerTasksScreen() {
 
               <TouchableOpacity
                 style={styles.cameraButton}
-                onPress={() => router.push('/worker/camera')}
+                onPress={() =>
+                  router.push({
+                    pathname: '/worker/camera',
+                    params: { orderId: order.id },
+                  })
+                }
               >
                 <Text style={styles.cameraButtonText}>فتح الكاميرا</Text>
               </TouchableOpacity>
