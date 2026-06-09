@@ -1,9 +1,7 @@
-import dotenv from 'dotenv';
+import 'dotenv/config';
 import fs from 'fs';
 import path from 'path';
 import { createPool } from './pool';
-
-dotenv.config();
 
 const run = async () => {
   const schemaPath = path.join(__dirname, 'schema.sql');
