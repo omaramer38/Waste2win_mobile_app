@@ -45,12 +45,14 @@ export default function WorkerMapScreen() {
   };
 
   const openSingleInMaps = (address: string) => {
-    if (!address.trim()) {
+    const normalizedAddress = normalizeMapAddress(address);
+
+    if (!normalizedAddress) {
       Alert.alert('لا يوجد عنوان', 'هذا الطلب لا يحتوي على عنوان صالح للعرض على الخريطة.');
       return;
     }
 
-    const encoded = encodeURIComponent(address);
+    const encoded = encodeURIComponent(normalizedAddress);
     const url = `https://www.google.com/maps/search/?api=1&query=${encoded}`;
     openMapUrl(url);
   };
@@ -69,19 +71,17 @@ export default function WorkerMapScreen() {
       return;
     }
 
-    // Build Google Maps URL with waypoints
-    // Format: https://www.google.com/maps/dir/?api=1&origin=A&destination=Z&waypoints=B|C|D
-    const addresses = pendingOrders.map((o) => encodeURIComponent(o.address));
-    const origin = addresses[0];
-    const destination = addresses[addresses.length - 1];
-    const waypoints = addresses.slice(1, -1).join('|');
+    // Path-style directions avoids Google Maps showing Arabic URL encoding as stop text.
+    const addresses = pendingOrders
+      .map((o) => normalizeMapAddress(o.address))
+      .filter(Boolean);
 
-    let url = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}`;
-    if (waypoints) {
-      url += `&waypoints=${waypoints}`;
+    if (addresses.length === 0) {
+      Alert.alert('لا يوجد عنوان', 'لا توجد عناوين صالحة للعرض على الخريطة.');
+      return;
     }
-    url += '&travelmode=driving';
-
+    const stops = addresses.map((address) => encodeURIComponent(address)).join('/');
+    const url = `https://www.google.com/maps/dir/${stops}/?travelmode=driving`;
     openMapUrl(url);
   };
 
@@ -175,6 +175,16 @@ export default function WorkerMapScreen() {
     </View>
   );
 }
+
+const normalizeMapAddress = (address: string) => {
+  const trimmed = address.trim();
+
+  try {
+    return decodeURIComponent(trimmed).trim();
+  } catch {
+    return trimmed;
+  }
+};
 
 const styles = StyleSheet.create({
   container: {

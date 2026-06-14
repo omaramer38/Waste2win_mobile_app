@@ -174,7 +174,7 @@ m.save("smart_route_map.html")
 
 
 
-print("\n🚛 BEST OPTIMIZED ROUTE:\n")
+print("\nBEST OPTIMIZED ROUTE:\n")
 
 for i, node in enumerate(best_route):
 
@@ -183,11 +183,11 @@ for i, node in enumerate(best_route):
     )
 
 print(
-    "\n📏 TOTAL DISTANCE:",
+    "\nTOTAL DISTANCE:",
     round(total, 2),
     "km"
 )
 
 print(
-    "\n🗺 MAP SAVED: smart_route_map.html"
+    "\nMAP SAVED: smart_route_map.html"
 )

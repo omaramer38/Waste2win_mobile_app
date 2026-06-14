@@ -53,7 +53,7 @@ function writeOrdersCsv(orders: Order[]): string {
     csvLines.push(`${o.name},${o.latitude},${o.longitude},${waste}`);
   }
   const csvContent = csvLines.join('\n');
-  const dataDir = path.resolve(__dirname, '../../smart_waste_ai/data');
+  const dataDir = path.resolve(__dirname, '../../../smart_waste_ai/data');
   if (!fs.existsSync(dataDir)) {
     fs.mkdirSync(dataDir, { recursive: true });
   }
@@ -70,10 +70,10 @@ export async function runOptimization(orders: Order[]): Promise<string> {
   const csvPath = writeOrdersCsv(orders);
   // The Python script reads `data/bins.csv`. We'll replace it with our temp file.
   // Copy temp file over the default bins.csv so the script uses the latest data.
-  const binsPath = path.resolve(__dirname, '../../smart_waste_ai/data/bins.csv');
+  const binsPath = path.resolve(__dirname, '../../../smart_waste_ai/data/bins.csv');
   fs.copyFileSync(csvPath, binsPath);
 
-  const scriptDir = path.resolve(__dirname, '../../smart_waste_ai');
+  const scriptDir = path.resolve(__dirname, '../../../smart_waste_ai');
   // Execute: python main.py
   const { stdout, stderr } = await execAsync('python main.py', { cwd: scriptDir });
   if (stderr) {

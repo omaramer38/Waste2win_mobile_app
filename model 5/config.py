@@ -6,10 +6,11 @@ from pathlib import Path
 # ============================================
 BASE_DIR = Path(__file__).parent
 WEIGHTS_PATH = BASE_DIR / "weights"
+INPUT_PATH = BASE_DIR / "input_images"
 OUTPUT_PATH = BASE_DIR / "output_results"
 
 # Create folders
-for p in [WEIGHTS_PATH, OUTPUT_PATH]:
+for p in [WEIGHTS_PATH, INPUT_PATH, OUTPUT_PATH]:
     p.mkdir(exist_ok=True)
 
 # ============================================
